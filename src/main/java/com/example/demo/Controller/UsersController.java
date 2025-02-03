@@ -7,6 +7,7 @@ import com.example.demo.Service.UsersService;
 import jakarta.mail.MessagingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -39,18 +40,27 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody Users user) {
-        if (userService.getUserByUserName(user.getUserName()).isPresent()) {
-            return ResponseEntity.status(400).body("Username already exists.");
-        }Users newUser = new Users();
-        newUser.setName(user.getName());
-        newUser.setPassword(user.getPassword());
-        newUser.setUserName(user.getUserName());
+    public ResponseEntity<String> createUser(@RequestBody UsersDTO userDTO) {
+
+        if (userService.getUserByUserName(userDTO.getUserName()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists.");
+        }
+
+        Users newUser = new Users();
+        newUser.setName(userDTO.getName());
+        newUser.setUserName(userDTO.getUserName());
+        newUser.setPassword(userDTO.getPassword());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setPhone(userDTO.getPhone());
+        newUser.setStatus(userDTO.getStatus());
+        newUser.setAvatar(userDTO.getAvatar());
+
         try {
             userService.createUser(newUser);
             return ResponseEntity.ok("User registered successfully.");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to register user. Please try again.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to register user. Please try again.");
         }
     }
 

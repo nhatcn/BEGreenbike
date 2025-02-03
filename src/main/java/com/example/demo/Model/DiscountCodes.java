@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class DiscountCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "code")
-    private String code;
+    private Long code;
+
 
     @Column(name = "discount_percent")
     private Long discountPercent;
@@ -19,11 +19,11 @@ public class DiscountCodes {
     @Column(name = "status")
     private Boolean status;
 
-    public String getCode() {
-        return this.code;
+    public Long getCode() {
+        return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 

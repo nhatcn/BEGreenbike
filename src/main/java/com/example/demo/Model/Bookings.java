@@ -29,8 +29,9 @@ public class Bookings {
     @Column(name = "participants")
     private Long participants;
 
-    @Column(name = "discount_code")
-    private String discountCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "discount_code", nullable = false)
+    private DiscountCodes discountCode;
 
     @Column(name = "total_price")
     private Double totalPrice;
@@ -86,11 +87,23 @@ public class Bookings {
         this.participants = participants;
     }
 
-    public String getDiscountCode() {
+    public Users getUser() {
+        return user;
+    }
+
+    public Tours getTour() {
+        return tour;
+    }
+
+    public Bicycles getBicycle() {
+        return bicycle;
+    }
+
+    public DiscountCodes getDiscountCode() {
         return discountCode;
     }
 
-    public void setDiscountCode(String discountCode) {
+    public void setDiscountCode(DiscountCodes discountCode) {
         this.discountCode = discountCode;
     }
 

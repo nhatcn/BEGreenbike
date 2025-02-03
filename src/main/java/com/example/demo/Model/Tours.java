@@ -15,8 +15,9 @@ public class Tours {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(columnDefinition = "TEXT")
     private String description;
+
 
     @Column(name = "price_per_person")
     private Double pricePerPerson;
